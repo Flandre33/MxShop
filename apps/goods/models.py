@@ -2,6 +2,7 @@ from datetime import datetime
 from django.db import models
 from DjangoUeditor.models import UEditorField
 
+
 class GoodsCategory(models.Model):
     """
     商品分类
@@ -30,6 +31,7 @@ class GoodsCategory(models.Model):
     def __str__(self):
         return self.name
 
+
 class GoodsCategoryBrand(models.Model):
     """
     某一大类下的宣传商标
@@ -47,6 +49,7 @@ class GoodsCategoryBrand(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Goods(models.Model):
     """
@@ -70,7 +73,7 @@ class Goods(models.Model):
     # 首页中新品展示
     is_new = models.BooleanField("是否新品",default=False)
     # 商品详情页的热卖商品，自行设置
-    is_hot = models.BooleanField("是否热销",default=False)
+    is_hot = models.BooleanField("是否热销",default=False,help_text='是否热销')
     add_time = models.DateTimeField("添加时间",default=datetime.now)
 
     class Meta:
@@ -79,6 +82,7 @@ class Goods(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class GoodsImage(models.Model):
     """
@@ -94,6 +98,7 @@ class GoodsImage(models.Model):
 
     def __str__(self):
         return self.goods.name
+
 
 class Banner(models.Model):
     """
@@ -111,6 +116,7 @@ class Banner(models.Model):
     def __str__(self):
         return self.goods.name
 
+
 class IndexAd(models.Model):
     """
     商品广告
@@ -124,6 +130,7 @@ class IndexAd(models.Model):
 
     def __str__(self):
         return self.goods.name
+
 
 class HotSearchWords(models.Model):
     """

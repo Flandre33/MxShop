@@ -23,7 +23,6 @@ class GoodsAdmin(object):
         exclude = ["add_time"]
         extra = 1
         style = 'tab'
-
     inlines = [GoodsImagesInline]
 
 
@@ -35,10 +34,12 @@ class GoodsCategoryAdmin(object):
 
 class GoodsBrandAdmin(object):
     list_display = ["category", "image", "name", "desc"]
-
+    # 重载默认get_context方法
     def get_context(self):
         context = super(GoodsBrandAdmin, self).get_context()
+        # if 'form' in context固定写法
         if 'form' in context:
+            #fields['category']，只取这个外键（分类），  category_type=1只取分类的大类
             context['form'].fields['category'].queryset = GoodsCategory.objects.filter(category_type=1)
         return context
 

@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
+# Create your models here.
 class ShoppingCart(models.Model):
     """
     购物车
@@ -15,15 +16,17 @@ class ShoppingCart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="用户")
     goods = models.ForeignKey(Goods, on_delete=models.CASCADE, verbose_name="商品")
     nums = models.IntegerField("购买数量",default=0)
+
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
     class Meta:
-        verbose_name = '购物车'
+        verbose_name = '购物车喵'
         verbose_name_plural = verbose_name
         unique_together = ("user", "goods")
 
     def __str__(self):
         return "%s(%d)".format(self.goods.name, self.nums)
+
 
 class OrderInfo(models.Model):
     """
@@ -70,6 +73,7 @@ class OrderInfo(models.Model):
     def __str__(self):
         return str(self.order_sn)
 
+
 class OrderGoods(models.Model):
     """
     订单内的商品详情
@@ -88,5 +92,3 @@ class OrderGoods(models.Model):
 
     def __str__(self):
         return str(self.order.order_sn)
-
-

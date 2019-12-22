@@ -5,6 +5,7 @@ from goods.models import Goods
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
+
 class UserFav(models.Model):
     """
     用户收藏操作
@@ -20,6 +21,7 @@ class UserFav(models.Model):
 
     def __str__(self):
         return self.user.username
+
 
 class UserAddress(models.Model):
     """
@@ -40,6 +42,7 @@ class UserAddress(models.Model):
 
     def __str__(self):
         return self.address
+
 
 class UserLeavingMessage(models.Model):
     """
