@@ -19,6 +19,7 @@ import xadmin
 from django.views.static import serve
 from MxShop.settings import MEDIA_ROOT
 from goods.views import GoodsListViewSet, CategoryViewSet
+from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
@@ -29,8 +30,16 @@ router = DefaultRouter()
 
 # 配置goods的url
 router.register(r'goods', GoodsListViewSet)
+# category的url
 router.register(r'category', CategoryViewSet)
+# 验证码url
 router.register(r'code', SmsCodeViewset, base_name="code")
+# 配置用户收藏的url
+router.register(r'userfavs', UserFavViewset, base_name="userfavs")
+# 配置用户留言的url
+router.register(r'messages', LeavingMessageViewset, base_name="messages")
+# 配置收货地址
+router.register(r'address', AddressViewset, base_name="address")
 
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
@@ -39,7 +48,7 @@ urlpatterns = [
     path('media/<path:path>',serve,{'document_root':MEDIA_ROOT}),
     # path('goods/', GoodsListView.as_view(), name='goods-list'),
     # drf文档
-    path('docs', include_docs_urls(title='东方红魔乡')),
+    path('docs', include_docs_urls(title='Touhou')),
     path('api_auth/', include('rest_framework.urls')),
     re_path('^', include(router.urls)),
     # token
