@@ -1,3 +1,4 @@
+# users/adminx.py
 import xadmin
 from xadmin import views
 from .models import VerifyCode
@@ -11,8 +12,8 @@ class BaseSetting(object):
 
 class GlobalSettings(object):
     #全局配置，后台管理标题和页脚
-    site_title = "东方红魔乡"
-    site_footer = "https://flandre33.lofter.com/"
+    site_title = "X-Admin"
+    site_footer = "http://www.cnblogs.com/derek1184405959/"
     #菜单收缩
     menu_style = "accordion"
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from goods.serializers import GoodsSerializer
-from .models import Goods
+from goods.serializers import GoodsSerializer, CategorySerializer
+from .models import Goods, GoodsCategory
 from rest_framework.response import Response
 from rest_framework import generics, mixins, viewsets
 from rest_framework.pagination import PageNumberPagination
@@ -60,6 +60,17 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     search_fields = ('=name', 'goods_brief')
 
     # 排序
-    ordering_fields = ('sold_num', 'add_time')
+    ordering_fields = ('sold_num', 'shop_price')
+
+class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    '''
+    list:
+        商品分类列表数据
+    '''
+    # 分页
+    pagination_class = GoodsPagination
+    queryset = GoodsCategory.objects.filter(category_type=1).order_by('id')
+    serializer_class = CategorySerializer
+
 
 

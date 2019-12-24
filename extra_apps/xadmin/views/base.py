@@ -3,7 +3,7 @@ import functools
 import datetime
 import decimal
 from functools import update_wrapper
-from inspect import getfullargspec
+from inspect import getargspec
 
 from django import forms
 from django.apps import apps
@@ -50,7 +50,7 @@ def filter_chain(filters, token, func, *args, **kwargs):
     else:
         def _inner_method():
             fm = filters[token]
-            fargs = getfullargspec(fm)[0]
+            fargs = getargspec(fm)[0]
             if len(fargs) == 1:
                 # Only self arg
                 result = func()
@@ -526,10 +526,11 @@ class ModelAdminView(CommAdminView):
         Get model object instance by object_id, used for change admin view
         """
         # first get base admin view property queryset, return default model queryset
-        model = self.model
+        queryset = self.queryset()
+        model = queryset.model
         try:
             object_id = model._meta.pk.to_python(object_id)
-            return model.objects.get(pk=object_id)
+            return queryset.get(pk=object_id)
         except (model.DoesNotExist, ValidationError):
             return None
 
@@ -598,6 +599,6 @@ class ModelAdminView(CommAdminView):
         codename = get_permission_codename('change', self.opts)
         return ('change' not in self.remove_permissions) and self.user.has_perm('%s.%s' % (self.app_label, codename))
 
-    def has_delete_permission(self, request=None, obj=None):
+    def has_delete_permission(self, obj=None):
         codename = get_permission_codename('delete', self.opts)
         return ('delete' not in self.remove_permissions) and self.user.has_perm('%s.%s' % (self.app_label, codename))

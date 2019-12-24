@@ -47,8 +47,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'xadmin',
     'crispy_forms',
+    'reversion',
     'DjangoUeditor',
     'django_filters',
+    'coreschema',
+    'rest_framework.authtoken',
 ]
 
 
@@ -72,8 +75,7 @@ ROOT_URLCONF = 'MxShop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,7 +83,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                #第三方登录
+                # 第三方登录
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],
@@ -170,8 +172,8 @@ STATICFILES_DIRS = (
 )
 
 # 设置上传文件的路径
-MEDIA_URL="/media/"
-MEDIA_ROOT=os.path.join(BASE_DIR,"media")
+MEDIA_URL= "/media/"
+MEDIA_ROOT= os.path.join(BASE_DIR, "media")
 
 # REST_FRAMEWORK = {
 #     # 分页
@@ -179,3 +181,22 @@ MEDIA_ROOT=os.path.join(BASE_DIR,"media")
 #     # 每页显示的个数
 #     'PAGE_SIZE': 10,
 # }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    )
+}
+
+import datetime
+# 有效期限
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),    # 也可以设置seconds=20
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',                       # JWT跟前端保持一致，比如“token”这里设置成JWT
+}
+
+REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
+
+APIKEY = "296ec8bd65d37a10aeac5c541d5a6581"
