@@ -18,8 +18,9 @@ from django.urls import path, include, re_path
 import xadmin
 from django.views.static import serve
 from MxShop.settings import MEDIA_ROOT
-from goods.views import GoodsListViewSet, CategoryViewSet
+from goods.views import GoodsListViewSet, CategoryViewSet, BannerViewset, IndexCategoryViewset
 from user_operation.views import UserFavViewset, LeavingMessageViewset, AddressViewset
+from trade.views import ShoppingCartViewset, OrderViewset
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
@@ -40,6 +41,14 @@ router.register(r'userfavs', UserFavViewset, base_name="userfavs")
 router.register(r'messages', LeavingMessageViewset, base_name="messages")
 # 配置收货地址
 router.register(r'address', AddressViewset, base_name="address")
+# 配置购物车的url
+router.register(r'shopcarts', ShoppingCartViewset, base_name="shopcarts")
+# 配置订单的url
+router.register(r'orders', OrderViewset, base_name="orders")
+# 配置首页轮播图的url
+router.register(r'banners', BannerViewset, base_name="banners")
+# 首页系列商品展示url
+router.register(r'indexgoods', IndexCategoryViewset, base_name="indexgoods")
 
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),

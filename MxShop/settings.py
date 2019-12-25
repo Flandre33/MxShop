@@ -187,7 +187,13 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    )
+        'rest_framework.throttling.AnonRateThrottle', #未登陆用户
+        'rest_framework.throttling.UserRateThrottle'  #登陆用户
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '3/minute',     #每分钟可以请求两次
+        'user': '5/minute'      #每分钟可以请求五次
+    }
 }
 
 import datetime
@@ -200,3 +206,19 @@ JWT_AUTH = {
 REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
 
 APIKEY = "296ec8bd65d37a10aeac5c541d5a6581"
+
+#缓存配置
+REST_FRAMEWORK_EXTENSIONS = {
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 5   #5s过期，时间自己可以随便设定
+}
+
+# redis缓存
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
